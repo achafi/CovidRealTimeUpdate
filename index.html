@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<title>Real Time Corona</title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway" />
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	<style>
+		body,
+		h1 {
+			font-family: 'Raleway', sans-serif;
+		}
+
+		body,
+		html {
+			height: 100%;
+		}
+
+		.bgimg {
+			background-image: url('https://ak9.picdn.net/shutterstock/videos/1045672999/thumb/1.jpg');
+			min-height: 100%;
+			background-position: center;
+			background-size: cover;
+		}
+	</style>
+
+	<body ng-app="myApp" ng-controller="myCtrl">
+		<div class="bgimg w3-display-container w3-animate-opacity w3-text-white">
+			<div class="w3-display-topleft w3-padding-large w3-xlarge">
+				Real Time Corona
+			</div>
+			<div class="w3-display-middle">
+				<h1 class="w3-jumbo w3-animate-top">Real Time Corona</h1>
+				<center>
+					<div ng-bind-html="cases"></div>
+					<div ng-bind-html="death"></div>
+					<div ng-bind-html="recover"></div>
+				</center>
+			</div>
+			<div class="w3-display-bottomleft w3-padding-large">
+				Powered by
+				 Real Time Corona</a>
+			</div>
+		</div>
+	</body>
+	<script>
+		var app = angular.module('myApp', []);
+		app.controller('myCtrl', function($scope, $http, $sce) {
+			$scope.array = [];
+			$http
+				.get('https://young-brushlands-03987.herokuapp.com/corona')
+				.then(function(response) {
+					console.log(response);
+					$scope.array = response.data;
+					$scope.cases = $sce.trustAsHtml($scope.array[0]);
+					$scope.death = $sce.trustAsHtml($scope.array[1]);
+					$scope.recover = $sce.trustAsHtml($scope.array[2]);
+				});
+		});
+	</script>
+</html>
